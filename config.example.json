@@ -1,0 +1,19 @@
+{
+  "jwtSecret": "dev",
+  "oauthJwtSecret": "dev",
+  "mainSiteURL": "http://localhost:4200",
+
+  "mongodb": {
+    "url": "mongodb://localhost/soundcloud-nowplaying"
+  },
+
+  "redis": {
+    "host": "127.0.0.1"
+  },
+
+  "twitch": {
+    "clientId": "",
+    "clientSecret": "",
+    "redirect": "http://localhost:7777/api/v1/auth/twitch/callback"
+  }
+}

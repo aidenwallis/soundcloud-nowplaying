@@ -1,0 +1,29 @@
+{
+  "name": "nowplaying-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node dist/index.js",
+    "watch-ts": "tsc -w"
+  },
+  "dependencies": {
+    "axios": "^0.20.0",
+    "fastify": "^3.4.1",
+    "fastify-cookie": "^4.1.0",
+    "fastify-plugin": "^2.3.4",
+    "ioredis": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.7",
+    "pino": "^6.6.1",
+    "pino-pretty": "^4.2.1"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/ioredis": "^4.17.4",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/mongoose": "^5.7.36",
+    "@types/pino": "^6.3.1",
+    "@types/redis": "^2.8.27"
+  }
+}
