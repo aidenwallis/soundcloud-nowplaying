@@ -1,27 +1,20 @@
-# NowplayingWeb
+# nowplaying-web
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.3.
+The react web app powering [soundcloud.aidenwallis.co.uk](https://soundcloud.aidenwallis.co.uk). This is a react single page app written in Typescript.
 
-## Development server
+The frontend is hosted on Netlify.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Setup
 
-## Code scaffolding
+1. Clone/fork the repository
+1. Make a copy of the `.env.example` file and move it to `.env` (ie, for terminal users, you can run `cp .env.example .env` within the project directory).
+1. Run `yarn` to install all dependencies.
+1. Start the web server with `yarn start`.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Development guide
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- Each component should live in it's own directory, have an `index.ts` file which points to either a container file, named `container.tsx` within the directory, or the component file if a container is not required, which should be named `component.tsx`.
+- Any interactions with the redux store/outside the scope of the UI (ie, it's safe to handle click events within the component scope) should live inside the `container.tsx` file. This is to ensure only UI and UI events are handled within our presentational components.
+- Avoid HoC, despite the `container -> component` architecture being somewhat similar to HoC, we still compose with hooks. Unless it's necessary to use a class, please stick to using React hooks.
+- Please consider whether it's possible before installing another npm dependency to rebuild it without too much work without requiring yet another dependency, it's important to keep bundle sizes low.
+- Spacing, sizing, color or anything related to layout of that sort should be composed with the built in theme properties, such as `theme.spacing()`, `theme.typography` or `theme.palette`. Please stick as close to the core material UI theme helpers/style rules as possible.
