@@ -80,4 +80,30 @@ export class AuthService {
     }
     return decoded;
   }
+
+  public static async parseRefreshToken(
+    token: string,
+  ): Promise<RefreshJWTPayload | null> {
+    const decoded = await JWT.decodeAccessJWT<RefreshJWTPayload>(token);
+    if (!decoded) {
+      return null;
+    }
+
+    if (
+      !(
+        decoded.schemaVersion === 1 &&
+        decoded.tokenType === TokenType.RefreshToken
+      )
+    ) {
+      return null;
+    }
+    return decoded;
+  }
+
+  public static generateTokens(user: User): Promise<[string, string]> {
+    return Promise.all([
+      this.generateAccessToken(user),
+      this.generateRefreshToken(user),
+    ]);
+  }
 }

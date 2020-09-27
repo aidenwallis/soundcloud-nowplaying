@@ -1,6 +1,6 @@
-import {FastifyReply} from "fastify";
+import {FastifyReply, FastifyRequest} from "fastify";
 import {config} from "../../../config";
-import {User} from "../../../models/user";
+import {User, UserModel} from "../../../models/user";
 import * as log from "../../../util/log";
 import {
   ACCESS_TOKEN_COOKIE_NAME,
@@ -110,10 +110,7 @@ export async function twitchCallback(
   let accessToken = "";
   let refreshToken = "";
   try {
-    [accessToken, refreshToken] = await Promise.all([
-      AuthService.generateAccessToken(user),
-      AuthService.generateRefreshToken(user),
-    ]);
+    [accessToken, refreshToken] = await AuthService.generateTokens(user);
     if (!(accessToken && refreshToken)) {
       throw new Error("either refresh or access token is empty?");
     }
@@ -138,4 +135,33 @@ export async function twitchCallback(
   }
 
   reply.redirect(302, returnURL);
+}
+
+export interface RefreshTokenRequest {
+  Body: {refreshToken: string};
+}
+
+export async function refreshToken(
+  request: FastifyRequest<RefreshTokenRequest>,
+  reply: FastifyReply,
+) {
+  try {
+    const payload = await AuthService.parseRefreshToken(
+      request.body.refreshToken,
+    );
+    if (!payload) {
+      reply.status(400).send({error: "Invalid refresh token."});
+      return;
+    }
+
+    const user = await UserModel.findById(payload.userId);
+    if (!user) {
+      throw new Error("no user found");
+    }
+
+    const [accessToken, refreshToken] = await AuthService.generateTokens(user);
+    return {accessToken: accessToken, refreshToken: refreshToken};
+  } catch (ex) {
+    reply.status(400).send({error: "Invalid refresh token."});
+  }
 }

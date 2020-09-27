@@ -34,5 +34,20 @@ export function register(
     controller.twitchCallback,
   );
 
+  fastify.post<controller.RefreshTokenRequest>(
+    "/auth/refresh-token",
+    {
+      schema: {
+        body: {
+          properties: {
+            refreshToken: {type: "string", minLength: 1},
+          },
+          required: ["refreshToken"],
+        },
+      },
+    },
+    controller.refreshToken,
+  );
+
   done();
 }
