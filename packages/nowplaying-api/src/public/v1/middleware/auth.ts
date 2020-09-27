@@ -16,7 +16,7 @@ export async function authMiddleware(
 ) {
   const header = (request.headers.authorization || "").trim();
   if (!header) {
-    return reply.status(400).send({error: "Missing auth header."});
+    return reply.status(401).send({error: "Missing auth header."});
   }
 
   try {
@@ -39,7 +39,7 @@ export async function authMiddleware(
     request.user = user;
   } catch (ex) {
     if (ex instanceof MiddlewareError) {
-      return reply.status(402).send({error: ex.message});
+      return reply.status(401).send({error: ex.message});
     }
     log.error("Failed to verify auth header", ex);
     reply.status(401).send({error: "Failed to verify auth header."});

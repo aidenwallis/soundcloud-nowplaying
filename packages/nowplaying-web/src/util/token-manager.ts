@@ -12,6 +12,15 @@ export class TokenManager {
     return Cookie.get(REFRESH_TOKEN_COOKIE_NAME) || null;
   }
 
+  public static setTokens(accessToken: string, refreshToken: string) {
+    Cookie.set(ACCESS_TOKEN_COOKIE_NAME, accessToken, {
+      expires: new Date(Date.now() + 1800 * 1000),
+    });
+    Cookie.set(REFRESH_TOKEN_COOKIE_NAME, refreshToken, {
+      expires: new Date(Date.now() + 86400 * 60 * 1000),
+    });
+  }
+
   public static logout() {
     Cookie.remove(ACCESS_TOKEN_COOKIE_NAME);
     Cookie.remove(REFRESH_TOKEN_COOKIE_NAME);
