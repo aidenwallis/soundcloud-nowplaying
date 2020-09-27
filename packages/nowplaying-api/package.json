@@ -11,6 +11,7 @@
     "axios": "^0.20.0",
     "fastify": "^3.4.1",
     "fastify-cookie": "^4.1.0",
+    "fastify-cors": "^4.1.0",
     "fastify-plugin": "^2.3.4",
     "ioredis": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
@@ -24,6 +25,13 @@
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mongoose": "^5.7.36",
     "@types/pino": "^6.3.1",
-    "@types/redis": "^2.8.27"
+    "@types/redis": "^2.8.27",
+    "@typescript-eslint/eslint-plugin": "^4.2.0",
+    "@typescript-eslint/parser": "^4.2.0",
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-simple-import-sort": "^5.0.3"
   }
 }

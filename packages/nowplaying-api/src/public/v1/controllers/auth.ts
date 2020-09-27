@@ -12,7 +12,6 @@ import {
 import {TwitchApiService} from "../services/twitch-api";
 import {TwitchAuthService} from "../services/twitch-auth";
 import {UserService} from "../services/user";
-import {PublicRequest} from "../types/interfaces/request";
 import {TwitchUser} from "../types/interfaces/twitch-api";
 import {
   TwitchOAuthStatePayload,
@@ -32,7 +31,7 @@ export interface TwitchRedirectRequest {
 }
 
 export async function twitchRedirect(
-  req: PublicRequest<TwitchRedirectRequest>,
+  req: FastifyRequest<TwitchRedirectRequest>,
   reply: FastifyReply,
 ) {
   try {
@@ -52,7 +51,7 @@ export interface TwitchCallbackRequest {
 }
 
 export async function twitchCallback(
-  req: PublicRequest<TwitchCallbackRequest>,
+  req: FastifyRequest<TwitchCallbackRequest>,
   reply: FastifyReply,
 ) {
   const code = req.query.code.trim();
@@ -157,6 +156,10 @@ export async function refreshToken(
     const user = await UserModel.findById(payload.userId);
     if (!user) {
       throw new Error("no user found");
+    }
+
+    if (user.jwtVersion !== payload.jwtVersion) {
+      throw new Error("invalid jwtVersion");
     }
 
     const [accessToken, refreshToken] = await AuthService.generateTokens(user);

@@ -1,13 +1,15 @@
 import fastify from "fastify";
 import cookie from "fastify-cookie";
+import cors from "fastify-cors";
 import * as v1 from "./public/v1";
 
 export class Server {
   private fastify = fastify();
 
   public constructor() {
+    this.fastify.register(cors);
     this.fastify.register(cookie);
-    this.fastify.register(v1.register, {prefix: "/api/v1"});
+    this.fastify.register(v1.register, {prefix: "/v1"});
   }
 
   public async start(port: number) {
