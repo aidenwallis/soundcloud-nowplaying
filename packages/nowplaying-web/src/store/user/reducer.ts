@@ -11,7 +11,7 @@ export interface UserStore {
 
 const getInitialState = (): UserStore => ({
   error: "",
-  hasToken: !!TokenManager.getAccessToken(),
+  hasToken: !!(TokenManager.getAccessToken() || TokenManager.getRefreshToken()),
   loading: false,
   user: null,
 });
