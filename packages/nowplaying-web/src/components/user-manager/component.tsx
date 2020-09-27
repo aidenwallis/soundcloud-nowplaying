@@ -9,15 +9,15 @@ export const UserManager: React.FunctionComponent = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    hasToken && dispatch(userActions.getUser());
+    const handleLogout = () => dispatch(userActions.resetStore());
+    const _hasToken = hasToken;
+    if (_hasToken) {
+      ApiService.eventEmitter.on("logout", handleLogout);
+      dispatch(userActions.getUser());
+    }
 
-    const handleLogout = () => {
-      dispatch(userActions.resetStore());
-    };
-
-    ApiService.eventEmitter.on("logout", handleLogout);
     return () => {
-      ApiService.eventEmitter.off("logout", handleLogout);
+      _hasToken && ApiService.eventEmitter.off("logout", handleLogout);
     };
   }, [dispatch, hasToken]);
 
