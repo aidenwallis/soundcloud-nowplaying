@@ -38,12 +38,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export const HomeComponent: React.FunctionComponent = () => {
+interface Props {
+  redirectURL: string;
+}
+
+export const HomeComponent: React.FunctionComponent<Props> = (props: Props) => {
   const classes = useStyles();
 
   const handleClick = (event: React.MouseEvent) => {
     event.preventDefault();
-    window.location.href = LOGIN_URL;
+    window.location.href =
+      LOGIN_URL +
+      (props.redirectURL
+        ? `?return_to=${encodeURIComponent(props.redirectURL)}`
+        : "");
   };
 
   return (

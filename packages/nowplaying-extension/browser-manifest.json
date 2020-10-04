@@ -1,0 +1,23 @@
+{
+  "name": "AidenWallis' NowPlaying extension",
+  "version": "0.0.1",
+  "description": "Extension to relay your NowPlaying state from SoundCloud to your overlay.",
+  "manifest_version": 2,
+  "icons": {},
+  "content_scripts": [
+    {
+      "all_frames": false,
+      "matches": ["https://*.soundcloud.com/*"],
+      "exclude_globs": ["*://api.soundcloud.com/*"],
+      "js": ["./content-script.js"]
+    }
+  ],
+  "browser_action": {
+    "default_popup": "action.html"
+  },
+  "permissions": ["https://*.soundcloud.com/*", "storage"],
+  "background": {
+    "js": ["./background.js"]
+  },
+  "web_accessible_resources": ["auth-callback.html"]
+}

@@ -1,5 +1,6 @@
-import {Container, makeStyles, Theme} from "@material-ui/core";
+import {Container, Grid, makeStyles, Theme} from "@material-ui/core";
 import * as React from "react";
+import {DashboardSidebar} from "../dashboard-sidebar";
 import {DashboardToolbar} from "../dashboard-toolbar";
 
 interface Props {
@@ -15,6 +16,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     top: 0,
     display: "flex",
     flexDirection: "column",
+    // backgroundColor: theme.palette.background.paper,
   },
   content: {
     flexGrow: 1,
@@ -35,7 +37,14 @@ export const DashboardLayout: React.FunctionComponent<Props> = (
       <DashboardToolbar />
       <div className={classes.content}>
         <Container>
-          <>{props.children}</>
+          <Grid container spacing={4}>
+            <Grid item>
+              <DashboardSidebar />
+            </Grid>
+            <Grid item xs zeroMinWidth>
+              {props.children}
+            </Grid>
+          </Grid>
         </Container>
       </div>
     </div>

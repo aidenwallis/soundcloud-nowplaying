@@ -58,16 +58,19 @@ export class ApiService {
 
   private static request<T>(options: ApiClientRequestConfig): Promise<T> {
     return this.client.request<T>(options).then((response) => {
-      if ((response.status === 401 && !!accessToken)) {
+      if (response.status === 401) {
         const refreshToken = TokenManager.getRefreshToken();
         if (!refreshToken) {
           this.logout();
           return response.body;
         }
 
-        return this.refreshToken(refreshToken).then(() =>
-          this.request(options),
-        );
+        return this.refreshToken(refreshToken)
+          .then(() => this.request<T>(options))
+          .catch(() => {
+            this.logout();
+            return response.body;
+          });
       }
       return response.body;
     });

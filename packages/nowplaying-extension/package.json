@@ -1,0 +1,22 @@
+{
+  "name": "nowplaying-extension",
+  "version": "0.0.1",
+  "description": "NowPlaying local browser extension",
+  "main": "dist/index.js",
+  "author": "Aiden Wallis <aiden@aidenwallis.co.uk>",
+  "license": "MIT",
+  "scripts": {
+    "copy-manifest": "cp browser-manifest.json dist/manifest.json",
+    "start": "parcel --no-minify src/action.html src/auth-callback.html src/background.ts src/content-script.ts",
+    "prestart": "npm run copy-manifest",
+    "build": "rm -rf dist && parcel build --no-minify --public-url ./ src/action.html src/auth-callback.html src/background.ts src/content-script.ts && npm run copy-manifest"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.26.11"
+  },
+  "dependencies": {
+    "eventemitter3": "^4.0.7",
+    "webextension-polyfill-ts": "^0.20.0"
+  }
+}
