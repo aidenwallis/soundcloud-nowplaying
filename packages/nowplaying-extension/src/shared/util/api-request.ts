@@ -12,7 +12,6 @@ export class ApiService {
   private static client = new ApiClient({
     baseUrl: process.env.API_BASE,
     headers: {"Content-Type": "application/json"},
-    onE,
   });
 
   public static setToken(token: string | null) {
