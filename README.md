@@ -5,6 +5,7 @@ SoundCloud Now Playing monorepo.
 ## Packages
 
 - [nowplaying-api](https://github.com/aidenwallis/soundcloud-nowplaying/tree/master/packages/nowplaying-api) :: The API powering the nowplaying website.
+- [nowplaying-extensin](https://github.com/aidenwallis/soundcloud-nowplaying/tree/master/nowplaying-extension) :: The browser extension which scrapes now playing states.
 - [nowplaying-web](https://github.com/aidenwallis/soundcloud-nowplaying/tree/master/packages/nowplaying-web) :: The frontend Angular app powering the website.
 - [ws-edge](https://github.com/aidenwallis/soundcloud-nowplaying/tree/master/packages/ws-edge) :: The WebSocket edge service end users connect to.
 
