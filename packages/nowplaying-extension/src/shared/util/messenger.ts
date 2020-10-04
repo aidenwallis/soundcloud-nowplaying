@@ -37,21 +37,17 @@ export class Messenger extends EventEmitter {
     // Sends the updated state to the background script. If multiple tabs are open the background script will
     // figure out if the same events are sent and debounce to ensure all info is updated on a song change, that's
     // not the responsibility of the content-script.
+    console.log(
+      "NowPlaying :: Sending player state to background worker.",
+      JSON.stringify(playerState),
+    );
     this.sendMessage({type: MessengerEvent.PlayerState, payload: playerState});
   }
 
-  public updateToken(token: string) {
-    const message: AuthenticatedMessage = {
-      type: MessengerEvent.Authenticated,
-      payload: token,
-    };
-    this.sendMessage(message);
-    // send back to self to update own ui
-    this.handleMessage(message);
-  }
-
   public sendMessage(message: MessengerMessages) {
-    browser.runtime.sendMessage(message);
+    browser.runtime.sendMessage(message).catch((error) => {
+      console.log(`Failed to send runtime message`, error);
+    });
   }
 
   private handleMessage(message: MessengerMessages) {

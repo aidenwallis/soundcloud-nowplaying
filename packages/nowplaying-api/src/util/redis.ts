@@ -30,7 +30,9 @@ export class Redis {
     const args = [key, JSON.stringify(value)];
     expireSeconds && args.push("EX", expireSeconds.toString());
     nx && args.push("NX");
-    return await this.client.set.apply(this.client.set, args);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    return await this.client.set(...args);
   }
 
   public static async expireAt(key: string, timestamp: number) {

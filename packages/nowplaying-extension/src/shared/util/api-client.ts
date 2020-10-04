@@ -122,7 +122,7 @@ export class ApiClient {
 
   public patch<T>(
     url: string,
-    body?: Record<string, unknown> | string | FormData,
+    body?: object | string | FormData,
     qs?: Record<string, string | string[]>,
     headers?: Record<string, string>,
   ) {

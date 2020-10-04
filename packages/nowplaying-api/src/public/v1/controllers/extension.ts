@@ -6,7 +6,7 @@ import {PlayerService} from "../services/player";
 
 interface SetSoundcloudStateRequest {
   Body: {
-    player: PlayerState;
+    state: PlayerState;
     song: {
       title: string;
       artist: string;
@@ -22,7 +22,7 @@ export function setSoundCloudState(
   return PlayerModel.updateOne(
     {user: req.user.id},
     {
-      playerState: req.body.player,
+      playerState: req.body.state,
       songState: req.body.song
         ? {
             title: req.body.song.title,

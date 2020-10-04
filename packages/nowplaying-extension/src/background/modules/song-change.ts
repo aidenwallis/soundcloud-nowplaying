@@ -7,10 +7,7 @@ export class SongChangeModule {
   private timer: NodeJS.Timeout | null = null;
   private state: PlayerStateModel;
 
-  public constructor(
-    private authManager: AuthManagerModule,
-    private messenger: Messenger,
-  ) {}
+  public constructor(private messenger: Messenger) {}
 
   public register() {
     this.messenger.on(MessengerEvent.PlayerState, (state: PlayerStateModel) =>
@@ -22,6 +19,7 @@ export class SongChangeModule {
     // wait a second to flush to api in case any other dom element changes (maybe album cover was slow)
     this.dedupeFlushTimer(1000);
     this.state = state;
+    console.log(state);
   }
 
   private dedupeFlushTimer(timeout: number) {
@@ -35,15 +33,20 @@ export class SongChangeModule {
   private flush() {
     this.timer = null;
 
-    if (!this.authManager.isAuthenticated) {
+    console.log(AuthManagerModule.isAuthenticated);
+    if (!AuthManagerModule.isAuthenticated) {
       return;
     }
 
     // flush new state to api
-    ApiService.pushState(this.state).catch((error) => {
-      console.error("Failed to push new state to API", error.toString());
-      // try and flush again in 5s
-      this.dedupeFlushTimer(5000);
-    });
+    ApiService.pushState(this.state)
+      .then(() => {
+        console.log("sent new state to api");
+      })
+      .catch((error) => {
+        console.error("Failed to push new state to API", error.toString());
+        // try and flush again in 5s
+        this.dedupeFlushTimer(5000);
+      });
   }
 }

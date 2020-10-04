@@ -17,7 +17,8 @@
   },
   "permissions": ["https://*.soundcloud.com/*", "storage"],
   "background": {
-    "js": ["./background.js"]
+    "scripts": ["./background.js"],
+    "persistent": true
   },
   "web_accessible_resources": ["auth-callback.html"]
 }

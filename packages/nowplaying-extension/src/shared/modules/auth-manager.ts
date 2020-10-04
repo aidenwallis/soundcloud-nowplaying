@@ -1,28 +1,24 @@
 import {ApiService} from "../util/api-request";
-import {Messenger, MessengerEvent} from "../util/messenger";
 import {TokenManager} from "../util/token-manager";
 
 export class AuthManagerModule {
-  private authenticated: boolean | null = null;
-  private authenticatedCb: (authenticated: boolean) => void;
+  private static authenticated: boolean | null = null;
+  private static authenticatedCb: (authenticated: boolean) => void;
 
-  public constructor(
-    private tokenManager: TokenManager,
-    private messenger: Messenger,
-  ) {}
-
-  public get isAuthenticated() {
+  public static get isAuthenticated() {
     return this.authenticated || false;
   }
 
-  public register() {
-    this.tokenManager.getAccessToken().then((t) => this.handleAuthenticated(t));
-    this.messenger.on(MessengerEvent.Authenticated, (t: string) =>
-      this.handleAuthenticated(t),
-    );
+  public static register() {
+    TokenManager.getAccessToken()
+      .then((t) => this.handleAuthenticated(t))
+      .catch((error) => {
+        console.error("Failed to get access token", error.toString());
+      });
+    TokenManager.onTokenChange((t) => this.handleAuthenticated(t));
   }
 
-  private handleAuthenticated(token: string) {
+  private static handleAuthenticated(token: string) {
     const authenticated = !!token;
     if (authenticated === this.authenticated) {
       return;
@@ -33,7 +29,7 @@ export class AuthManagerModule {
     this.authenticatedCb && this.authenticatedCb(authenticated);
   }
 
-  public onAuthenticated(done: (authenticated: boolean) => void) {
+  public static onAuthenticated(done: (authenticated: boolean) => void) {
     this.authenticatedCb = done;
   }
 }

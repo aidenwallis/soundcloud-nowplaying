@@ -10,8 +10,9 @@ export class ExtensionRoutes {
       {
         schema: {
           body: {
+            type: "object",
             properties: {
-              player: {type: "number", min: 0, max: 1},
+              state: {type: "number", min: 0, max: 1},
               song: {
                 properties: {
                   title: {type: "string", minLength: 1},
@@ -20,7 +21,7 @@ export class ExtensionRoutes {
                 },
               },
             },
-            required: ["playerState"],
+            required: ["state", "song"],
           },
         },
       },

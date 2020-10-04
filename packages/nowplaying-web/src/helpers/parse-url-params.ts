@@ -6,7 +6,6 @@ export function parseUrlParams(input: string): Record<string, string> {
     if (!key) {
       return acc;
     }
-    console.log(key, value, cur);
     return {
       ...acc,
       [decodeURIComponent(key)]: decodeURIComponent(

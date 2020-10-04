@@ -1,6 +1,17 @@
-import {browser} from "webextension-polyfill-ts";
+import {browser, Storage as StorageAPI} from "webextension-polyfill-ts";
 
 export class Storage {
+  public static onChanged<T>(target: string, cb: (value: T) => void) {
+    browser.storage.onChanged.addListener(
+      (keys: Record<string, StorageAPI.StorageChange>) => {
+        for (const key in keys) {
+          if (!keys.hasOwnProperty(key)) continue;
+          if (key === target) return cb(keys[key].newValue);
+        }
+      },
+    );
+  }
+
   public static get<T>(key: string, defaultValue: T): Promise<T> {
     return this.getOptional<T>(key).then((value) => {
       if (value === undefined) {
