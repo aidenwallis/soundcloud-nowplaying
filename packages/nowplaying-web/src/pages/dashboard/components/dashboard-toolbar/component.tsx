@@ -20,13 +20,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   button: {
     marginLeft: theme.spacing(3),
   },
+  bar: {
+    backgroundColor: theme.palette.grey[900],
+  },
 }));
 
 export const DashboardToolbar: React.FunctionComponent = () => {
   const classes = useStyles();
 
   return (
-    <AppBar elevation={2} position="static">
+    <AppBar elevation={0} className={classes.bar} position="static">
       <Toolbar>
         <div className={classes.left}>
           <Typography variant="h6" className={classes.title}>

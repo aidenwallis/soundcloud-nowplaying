@@ -1,6 +1,7 @@
 import EventEmitter from "eventemitter3";
 import {config} from "../config";
 import {RefreshTokenResponse} from "../types/models/auth";
+import {Overlay} from "../types/models/overlay";
 import {AuthenticatedUser} from "../types/models/user";
 import {
   ApiClient,
@@ -10,15 +11,17 @@ import {
 import {TokenManager} from "../util/token-manager";
 
 const accessToken = TokenManager.getAccessToken();
+const baseHeaders = {"Content-Type": "application/json"};
 
 export class ApiService {
   private static client = new ApiClient({
     baseUrl: config.api.baseUrl,
     headers: accessToken
       ? {
+          ...baseHeaders,
           Authorization: `Bearer ${accessToken}`,
         }
-      : undefined,
+      : baseHeaders,
   });
   public static eventEmitter = new EventEmitter();
 
@@ -29,11 +32,33 @@ export class ApiService {
     });
   }
 
+  public static getOverlays(): Promise<Overlay[]> {
+    return this.request<{data: Overlay[]}>({
+      method: ApiClientMethod.GET,
+      url: "v1/overlays",
+    }).then((r) => r.data);
+  }
+
+  public static createOverlay(name: string): Promise<Overlay> {
+    return this.request<Overlay>({
+      method: ApiClientMethod.POST,
+      url: "v1/overlays",
+      body: JSON.stringify({name: name}),
+    });
+  }
+
+  public static deleteOverlay(id: string) {
+    return this.request({
+      method: ApiClientMethod.DELETE,
+      url: `v1/overlays/${encodeURIComponent(id)}`,
+    });
+  }
+
   private static async refreshToken(refreshToken: string): Promise<void> {
     try {
       const response = await this.client.post<RefreshTokenResponse>(
         "v1/auth/refresh-token",
-        {body: {refreshToken}},
+        {refreshToken},
       );
       if (!response?.body?.accessToken) {
         throw new Error("no access_token found");

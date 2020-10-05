@@ -36,6 +36,7 @@ export class AuthRoutes {
       {
         schema: {
           body: {
+            type: "object",
             properties: {
               refreshToken: {type: "string", minLength: 1},
             },

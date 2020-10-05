@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface NavItem {
   label: string;
+  exact?: boolean;
   linkTo: string;
 }
 
@@ -42,10 +43,11 @@ const links: NavItem[] = [
   {
     label: "Dashboard",
     linkTo: "/dashboard",
+    exact: true,
   },
   {
     label: "Overlays",
-    linkTo: "/overlays",
+    linkTo: "/dashboard/overlays",
   },
 ];
 
@@ -58,6 +60,7 @@ export const DashboardSidebar: React.FunctionComponent = () => {
         <NavLink
           to={link.linkTo}
           key={link.linkTo}
+          exact={link.exact}
           className={classes.linkItem}
           activeClassName={classes.linkItemActive}
         >
