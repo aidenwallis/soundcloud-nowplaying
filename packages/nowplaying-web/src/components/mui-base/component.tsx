@@ -1,12 +1,17 @@
 import {createMuiTheme, CssBaseline, ThemeProvider} from "@material-ui/core";
+import {blue} from "@material-ui/core/colors";
 import * as React from "react";
 
 const theme = createMuiTheme({
   palette: {
     type: "dark",
+    primary: {
+      main: blue["A200"],
+    },
   },
   typography: {
-    fontFamily: "proxima-nova, sans-serif",
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", Noto Color Emoji',
   },
 });
 
