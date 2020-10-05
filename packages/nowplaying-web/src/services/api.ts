@@ -47,6 +47,13 @@ export class ApiService {
     });
   }
 
+  public static deleteOverlay(id: string) {
+    return this.request({
+      method: ApiClientMethod.DELETE,
+      url: `v1/overlays/${encodeURIComponent(id)}`,
+    });
+  }
+
   private static async refreshToken(refreshToken: string): Promise<void> {
     try {
       const response = await this.client.post<RefreshTokenResponse>(

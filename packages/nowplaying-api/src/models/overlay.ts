@@ -1,5 +1,6 @@
 import * as mongoose from "mongoose";
 import {PlayerProvider} from "../types/enums/player-provider";
+import {Redis} from "../util/redis";
 
 export interface OverlayDocument extends mongoose.Document {
   user: string;
@@ -27,6 +28,15 @@ export const OverlaySchema = new mongoose.Schema<OverlayDocument>(
 );
 
 OverlaySchema.index({user: 1});
+
+function cacheBust(doc: OverlayDocument) {
+  // invalidate user overlays cache
+  Redis.del(`overlays::${doc.user}`);
+}
+
+OverlaySchema.post("deleteOne", cacheBust);
+OverlaySchema.post("save", cacheBust);
+OverlaySchema.post("updateOne", cacheBust);
 
 export const OverlayModel = mongoose.model<
   OverlayDocument,

@@ -14,7 +14,7 @@ export const DashboardOverlays: React.FunctionComponent = () => {
 
   React.useEffect(() => {
     dispatch(overlaysActions.getOverlays());
-  }, []);
+  }, [dispatch]);
 
   return (
     <DashboardOverlaysComponent

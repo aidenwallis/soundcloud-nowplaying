@@ -5,7 +5,9 @@ import {authMiddleware} from "../middleware/auth";
 export class OverlayRoutes {
   public static async register(fastify: FastifyInstance) {
     fastify.addHook("preHandler", authMiddleware);
+
     fastify.get("/overlays", controller.getOverlays);
+
     fastify.post(
       "/overlays",
       {
@@ -20,6 +22,21 @@ export class OverlayRoutes {
         },
       },
       controller.createOverlay,
+    );
+
+    fastify.delete(
+      "/overlays/:overlayId",
+      {
+        schema: {
+          params: {
+            properties: {
+              overlayId: {type: "string", minLength: 10},
+            },
+            required: ["overlayId"],
+          },
+        },
+      },
+      controller.deleteOverlay,
     );
   }
 }

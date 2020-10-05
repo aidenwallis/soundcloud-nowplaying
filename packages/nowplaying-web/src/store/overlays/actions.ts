@@ -71,3 +71,17 @@ export const createOverlay = (name: string, done: () => void): AsyncAction => (
     .catch((error: RequestError) => dispatch(setError(error.toString())))
     .finally(() => dispatch(setSubmitting(false)));
 };
+
+export const deleteOverlay = (id: string, done: () => void): AsyncAction => (
+  dispatch,
+) => {
+  dispatch(setSubmitting(true));
+  dispatch(setError(""));
+  ApiService.deleteOverlay(id)
+    .then(() => {
+      dispatch(getOverlays());
+      done();
+    })
+    .catch((error: RequestError) => dispatch(setError(error.toString())))
+    .finally(() => dispatch(setSubmitting(false)));
+};

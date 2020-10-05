@@ -5,9 +5,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import * as React from "react";
-import {Route} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
+import {Alert, AlertType} from "../../../../../../components/alert";
 import {Overlay} from "../../../../../../types/models/overlay";
 import {OverlaysCreateButton} from "../overlays-create-button";
+import {OverlaysDeleteModal} from "../overlays-delete-modal";
 import {OverlaysEmpty} from "../overlays-empty";
 import {OverlaysItem} from "../overlays-item";
 import {OverlaysModal} from "../overlays-modal";
@@ -42,6 +44,16 @@ export const DashboardOverlaysComponent: React.FunctionComponent<Props> = (
         should be kept secret and not shared.
       </Typography>
       <div className={classes.content}>
+        {props.overlays.length && !!props.error && (
+          <Alert
+            gutterBottom
+            type={AlertType.Danger}
+            message={{
+              title: "Failed to load overlays",
+              description: props.error,
+            }}
+          />
+        )}
         {props.overlays.length > 0 && (
           <>
             <OverlaysCreateButton />
@@ -57,7 +69,13 @@ export const DashboardOverlaysComponent: React.FunctionComponent<Props> = (
         )}
         {!props.loading && props.overlays.length === 0 && <OverlaysEmpty />}
       </div>
-      <Route path="/dashboard/overlays/new" component={OverlaysModal} />
+      <Switch>
+        <Route path="/dashboard/overlays/new" component={OverlaysModal} />
+        <Route
+          path="/dashboard/overlays/delete/:overlayId"
+          component={OverlaysDeleteModal}
+        />
+      </Switch>
     </div>
   );
 };
