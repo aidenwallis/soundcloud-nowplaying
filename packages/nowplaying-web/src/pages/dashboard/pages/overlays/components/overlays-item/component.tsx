@@ -29,8 +29,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export const OverlaysItem: React.FunctionComponent<Props> = ({
   overlay,
-}: // ...props
-Props) => {
+}: Props) => {
   const classes = useStyles();
 
   return (
