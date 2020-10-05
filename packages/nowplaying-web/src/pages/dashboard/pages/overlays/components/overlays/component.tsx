@@ -13,6 +13,7 @@ import {OverlaysDeleteModal} from "../overlays-delete-modal";
 import {OverlaysEmpty} from "../overlays-empty";
 import {OverlaysItem} from "../overlays-item";
 import {OverlaysModal} from "../overlays-modal";
+import {OverlaysView} from "../overlays-view";
 
 interface Props {
   error: string;
@@ -75,6 +76,7 @@ export const DashboardOverlaysComponent: React.FunctionComponent<Props> = (
           path="/dashboard/overlays/delete/:overlayId"
           component={OverlaysDeleteModal}
         />
+        <Route path="/dashboard/overlays/:overlayId" component={OverlaysView} />
       </Switch>
     </div>
   );

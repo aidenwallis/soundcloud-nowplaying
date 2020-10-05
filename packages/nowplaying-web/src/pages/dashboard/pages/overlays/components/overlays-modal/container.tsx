@@ -20,7 +20,7 @@ export const OverlaysModal: React.FunctionComponent<Props> = (props: Props) => {
 
   const handleClose = () => history.push("/dashboard/overlays");
 
-  const handleCreate = (name: string) => {
+  const handleSave = (name: string) => {
     dispatch(overlaysActions.createOverlay(name, handleClose));
   };
 
@@ -29,7 +29,7 @@ export const OverlaysModal: React.FunctionComponent<Props> = (props: Props) => {
       loading={state.loading}
       error={state.error}
       overlay={props.overlay}
-      onCreate={handleCreate}
+      onSave={handleSave}
       onClose={handleClose}
     />
   );
