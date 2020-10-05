@@ -4,13 +4,36 @@ import {authMiddleware} from "../middleware/auth";
 
 export class OverlayRoutes {
   public static async register(fastify: FastifyInstance) {
-    fastify.addHook("preHandler", authMiddleware);
-
-    fastify.get("/overlays", controller.getOverlays);
+    fastify.get(
+      "/overlays",
+      {preHandler: [authMiddleware]},
+      controller.getOverlays,
+    );
+    fastify.get(
+      "/overlays/:overlayId",
+      {
+        schema: {
+          params: {
+            properties: {
+              overlayId: {type: "string", minLength: 10},
+            },
+            required: ["overlayId"],
+          },
+          querystring: {
+            properties: {
+              password: {type: "string", minLength: 15, maxLength: 15},
+            },
+            required: ["password"],
+          },
+        },
+      },
+      controller.getOverlay,
+    );
 
     fastify.post(
       "/overlays",
       {
+        preHandler: [authMiddleware],
         schema: {
           body: {
             type: "object",
@@ -27,6 +50,7 @@ export class OverlayRoutes {
     fastify.delete(
       "/overlays/:overlayId",
       {
+        preHandler: [authMiddleware],
         schema: {
           params: {
             properties: {

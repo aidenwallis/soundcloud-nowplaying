@@ -77,3 +77,31 @@ export function deleteOverlay(
       reply.code(500).send({error: "Failed to delete overlay."});
     });
 }
+
+interface GetOverlayRequest {
+  Params: {overlayId: string};
+  Querystring: {password: string};
+}
+
+export function getOverlay(
+  req: FastifyRequest<GetOverlayRequest>,
+  reply: FastifyReply,
+) {
+  return OverlayModel.findById(req.params.overlayId)
+    .then((overlay) => {
+      if (!overlay || overlay.password !== req.query.password) {
+        return reply.code(404).send({error: "Overlay not found."});
+      }
+      reply.send({
+        id: overlay.id,
+        name: overlay.name,
+        password: overlay.password,
+        provider: overlay.provider,
+        createdAt: overlay.createdAt,
+      });
+    })
+    .catch((error) => {
+      log.error("Failed to get overlay: " + error.toString());
+      reply.code(500).send({error: "Failed to get overlay."});
+    });
+}
